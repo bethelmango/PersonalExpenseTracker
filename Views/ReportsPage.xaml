@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PersonalExpenseTracker.Views.ReportsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+    Title="Reports">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Date Range + Apply Filter -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Date Range" FontAttributes="Bold" />
+                <HorizontalStackLayout>
+                    <DatePicker Date="{Binding StartDate}" />
+                    <Label Text="to"
+                           VerticalOptions="Center"
+                           Margin="5" />
+                    <DatePicker Date="{Binding EndDate}" />
+                </HorizontalStackLayout>
+                <Button Text="Apply Filter"
+                        HorizontalOptions="Fill"
+                        Command="{Binding ApplyDateFilterCommand}" />
+            </VerticalStackLayout>
+
+            <!-- Total Spent Summary (NO FRAME) -->
+            <VerticalStackLayout>
+                <Label Text="Total Spent" FontSize="Small" />
+                <Label Text="{Binding TotalSpent, StringFormat='{}{0:C}'}"
+                       FontSize="Title"
+                       FontAttributes="Bold" />
+            </VerticalStackLayout>
+
+            <!-- Category Chart (Pie) + Custom Legend -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Spending by Category" FontAttributes="Bold" />
+                <Label Text="(Matches the selected date range above)"
+                       FontSize="Micro"
+                       Opacity="0.7" />
+
+                <!-- Pie chart -->
+                <syncfusion:SfCircularChart HeightRequest="250" Margin="10">
+                    <syncfusion:PieSeries
+                        ItemsSource="{Binding CategorySummaries}"
+                        XBindingPath="Category"
+                        YBindingPath="Total" />
+                </syncfusion:SfCircularChart>
+
+                <!-- Custom legend under the chart -->
+                <CollectionView ItemsSource="{Binding CategorySummaries}"
+                                ItemsLayout="VerticalStack"
+                                Margin="0,10,0,0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Color box (from CategorySummary.Color) -->
+                                <BoxView Grid.Column="0"
+                                         WidthRequest="12"
+                                         HeightRequest="12"
+                                         VerticalOptions="Center"
+                                         Color="{Binding Color}" />
+
+                                <Label Grid.Column="1"
+                                       Margin="8,0,0,0"
+                                       Text="{Binding Category}" />
+
+                                <Label Grid.Column="2"
+                                       Text="{Binding Total, StringFormat='{}{0:C}'}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- Monthly Trend Line (last 6 months, NOT filter-driven) -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Monthly Trend (Last 6 Months)" FontAttributes="Bold" />
+                <Label Text="Total expenses for the past 6 months (not affected by the date range above)"
+                       FontSize="Micro"
+                       Opacity="0.7" />
+
+                <syncfusion:SfCartesianChart HeightRequest="200" Margin="10">
+                    <syncfusion:SfCartesianChart.XAxes>
+                        <syncfusion:CategoryAxis />
+                    </syncfusion:SfCartesianChart.XAxes>
+
+                    <syncfusion:SfCartesianChart.YAxes>
+                        <syncfusion:NumericalAxis />
+                    </syncfusion:SfCartesianChart.YAxes>
+
+                    <syncfusion:LineSeries
+                        ItemsSource="{Binding MonthlySummaries}"
+                        XBindingPath="MonthLabel"
+                        YBindingPath="Total" />
+                </syncfusion:SfCartesianChart>
+            </VerticalStackLayout>
+
+            <!-- Category Breakdown List -->
+            <VerticalStackLayout>
+                <Label Text="Category Breakdown" FontAttributes="Bold" />
+                <Label Text="(Matches the selected date range above)"
+                       FontSize="Micro"
+                       Opacity="0.7" />
+
+                <CollectionView ItemsSource="{Binding CategorySummaries}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="{Binding Category}" />
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding Total, StringFormat='{}{0:C}'}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

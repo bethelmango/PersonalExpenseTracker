@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PersonalExpenseTracker.Views.AddExpensePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:PersonalExpenseTracker.ViewModels"
+    Title="Add Expense">
+
+    <ContentPage.BindingContext>
+        <viewModels:AddExpensePageViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <Label Text="Description" />
+            <Entry Text="{Binding Expense.Description}" />
+
+            <Label Text="Amount" />
+            <Entry
+                Keyboard="Numeric"
+                Text="{Binding Expense.Amount}" />
+
+            <Label Text="Date" />
+            <DatePicker Date="{Binding Expense.Date}" />
+
+            <Label Text="Category" />
+            <Picker
+                ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding Expense.Category}" />
+
+            <HorizontalStackLayout Spacing="12">
+                <Button
+                    Text="Save"
+                    Command="{Binding SaveExpenseCommand}" />
+                <Button
+                    Text="Cancel"
+                    Command="{Binding CancelCommand}" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

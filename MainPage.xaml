@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PersonalExpenseTracker.MainPage"
+             Title="Expenses">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Style for amount labels: simple, consistent formatting -->
+            <Style x:Key="AmountLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="Green" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Grid so controls use Auto height and list fills the rest -->
+    <Grid Padding="20"
+          RowDefinitions="Auto,Auto,*">
+
+        <!-- Add button -->
+        <Button Grid.Row="0"
+                Text="Add Expense"
+                Command="{Binding AddNewExpenseCommand}"
+                HorizontalOptions="End" />
+
+        <!-- Export / Import buttons (assignment 1.3) -->
+        <StackLayout Grid.Row="1"
+                     Orientation="Horizontal"
+                     Spacing="10"
+                     Margin="0,10,0,10">
+            <Button Text="Export"
+                    Command="{Binding ExportExpensesCommand}"
+                    BackgroundColor="{StaticResource SecondaryColor}" />
+            <Button Text="Import"
+                    Command="{Binding ImportExpensesCommand}"
+                    BackgroundColor="{StaticResource SecondaryColor}" />
+        </StackLayout>
+
+        <!-- Expense list -->
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Expenses}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10" ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Description and date -->
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Description}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding Date, StringFormat='{}{0:MM/dd/yyyy}'}"
+                                   FontSize="12"
+                                   TextColor="Gray" />
+                        </VerticalStackLayout>
+
+                        <!-- Amount -->
+                        <Label Grid.Column="1"
+                               Text="{Binding Amount, StringFormat='{}{0:C}'}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"
+                               Style="{StaticResource AmountLabelStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

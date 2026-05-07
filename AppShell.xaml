@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell
+    x:Class="PersonalExpenseTracker.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:PersonalExpenseTracker"
+    xmlns:views="clr-namespace:PersonalExpenseTracker.Views">
+
+    <!-- Main navigation structure -->
+    <FlyoutItem Title="Expenses" Route="MainPage">
+        <!-- MainPage is in namespace PersonalExpenseTracker -->
+        <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Reports" Route="ReportsPage">
+        <!-- ReportsPage is in namespace PersonalExpenseTracker.Views -->
+        <ShellContent ContentTemplate="{DataTemplate views:ReportsPage}" />
+    </FlyoutItem>
+
+    <!-- Global menu items -->
+    <MenuItem
+        Text="Sync"
+        Clicked="OnSyncClicked" />
+</Shell>

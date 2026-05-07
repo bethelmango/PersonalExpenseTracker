@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PersonalExpenseTracker.AddExpensePage"
+             Title="Add Expense">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <!-- Description -->
+        <Entry Placeholder="Description"
+               Text="{Binding Expense.Description}" />
+
+        <!-- Amount -->
+        <Entry Placeholder="Amount"
+               Keyboard="Numeric"
+               Text="{Binding Expense.Amount}" />
+
+        <!-- Category -->
+        <Picker Title="Category"
+                ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding Expense.Category}" />
+
+        <!-- Date -->
+        <DatePicker Date="{Binding Expense.Date}" />
+
+        <!-- Buttons -->
+        <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+            <Button Text="Save"
+                    Command="{Binding SaveExpenseCommand}" />
+
+            <!-- Following the assignment's relative binding pattern -->
+            <Button Text="Cancel"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                      Path=BindingContext.CancelCommand}" />
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+
+</ContentPage>
